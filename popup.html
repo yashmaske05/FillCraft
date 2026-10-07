@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="stylesheet" href="popup.css" />
+  <link rel="icon" href="icons/logo.svg" type="image/svg+xml" />
+  <title>FillCraft</title>
+</head>
+<body>
+  <!-- Icon sprite (inline: extension pages cannot load icon libraries from the web) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-dot" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5" fill="currentColor" stroke="none"/></symbol>
+      <symbol id="i-valid" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+      <symbol id="i-invalid" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+      <symbol id="i-edge" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z"/></symbol>
+      <symbol id="i-clear" viewBox="0 0 24 24"><path d="m7 21-4.3-4.3a1 1 0 0 1 0-1.4l9.6-9.6a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4L13 21"/><path d="M22 21H7M5 11l9 9"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+      <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a3 3 0 0 1 5.7 1c0 2-3 2.8-3 2.8M12 17h.01"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+      <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></symbol>
+      <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
+    </defs>
+  </svg>
+
+  <!-- ===================== Main view ===================== -->
+  <main class="view" id="view-main">
+    <header class="topbar">
+      <div class="brand">
+        <img src="icons/logo.svg" alt="" class="brand-logo" />
+        <div>
+          <h1>FillCraft</h1>
+          <p class="tagline">Instant form filler · US healthcare data</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button type="button" class="icon-btn" id="btn-help" aria-label="Help and tips" title="Help &amp; tips">
+          <svg class="ic"><use href="#i-help"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="btn-settings" aria-label="Settings" title="Settings">
+          <svg class="ic"><use href="#i-sliders"/></svg>
+          <span class="badge-dot" id="settings-dot" hidden></span>
+        </button>
+      </div>
+    </header>
+
+    <section class="modes" aria-label="Fill modes">
+      <button type="button" class="mode valid" data-mode="valid" data-command="fill-valid">
+        <span class="mode-icon"><svg class="ic"><use href="#i-valid"/></svg></span>
+        <kbd></kbd>
+        <span class="mode-title"><span class="full">Valid data</span><span class="short">Valid</span></span>
+        <span class="mode-desc">Realistic US patient</span>
+      </button>
+      <button type="button" class="mode invalid" data-mode="invalid" data-command="fill-invalid">
+        <span class="mode-icon"><svg class="ic"><use href="#i-invalid"/></svg></span>
+        <kbd></kbd>
+        <span class="mode-title"><span class="full">Invalid data</span><span class="short">Invalid</span></span>
+        <span class="mode-desc" id="invalid-desc">Random mix</span>
+      </button>
+      <button type="button" class="mode edge" data-mode="edge" data-command="fill-edge">
+        <span class="mode-icon"><svg class="ic"><use href="#i-edge"/></svg></span>
+        <kbd></kbd>
+        <span class="mode-title"><span class="full">Edge cases</span><span class="short">Edge</span></span>
+        <span class="mode-desc" id="edge-desc">Random mix</span>
+      </button>
+      <button type="button" class="mode clear" data-mode="clear" data-command="clear-form">
+        <span class="mode-icon"><svg class="ic"><use href="#i-clear"/></svg></span>
+        <kbd></kbd>
+        <span class="mode-title"><span class="full">Clear form</span><span class="short">Clear</span></span>
+        <span class="mode-desc">Empty every field</span>
+      </button>
+    </section>
+
+    <!-- "Keep the same person" is on: who every fill uses (Settings → Test patient). -->
+    <section class="person" id="person-bar" hidden aria-label="The patient every fill uses">
+      <span class="person-avatar" id="person-initials" aria-hidden="true"></span>
+      <span class="person-text">
+        <span class="person-name" id="person-name"></span>
+        <span class="person-sub" id="person-sub"></span>
+      </span>
+      <button type="button" class="btn btn-ghost person-new" id="btn-new-person" title="Make a new patient for the next fills"><svg class="ic ic-sm" aria-hidden="true"><use href="#i-refresh"/></svg>New person</button>
+    </section>
+
+    <!-- Right-click field settings saved for the site in this tab. -->
+    <button type="button" class="active-settings site-rules" id="site-rules" hidden><svg class="ic ic-sm" aria-hidden="true"><use href="#i-sliders"/></svg><span class="note-text" id="site-rules-text"></span><svg class="ic ic-sm note-go" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+
+    <button type="button" class="active-settings" id="settings-note" hidden><svg class="ic ic-sm" aria-hidden="true"><use href="#i-sliders"/></svg><span class="note-text"><span class="note-count"></span><span class="note-key"></span></span><svg class="ic ic-sm note-go" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+
+    <section class="status" id="status" hidden>
+      <div class="progress" aria-hidden="true"></div>
+      <div class="status-row">
+        <span class="status-dot"></span>
+        <span id="status-msg" class="status-msg" role="status" aria-live="polite"></span>
+        <button type="button" class="stop-btn" id="btn-stop" hidden title="Stop after the field FillCraft is working on — what was filled stays"><span class="stop-sq" aria-hidden="true"></span><span class="stop-label">Stop</span></button>
+      </div>
+    </section>
+
+    <section class="results" id="results" hidden aria-label="Field results">
+      <div class="segmented filters" role="group" aria-label="Show">
+        <button type="button" class="seg chip" data-filter="all" aria-pressed="true">All <span class="count"></span></button>
+        <button type="button" class="seg chip" data-filter="filled" aria-pressed="false">Filled <span class="count"></span></button>
+        <button type="button" class="seg chip" data-filter="skipped" aria-pressed="false">Skipped <span class="count"></span></button>
+        <button type="button" class="seg chip" data-filter="failed" aria-pressed="false">Failed <span class="count"></span></button>
+      </div>
+      <ul class="result-list" id="result-list"></ul>
+      <div class="results-foot">
+        <p class="hint">Click a field to jump to it.</p>
+        <span class="foot-actions">
+        <button type="button" class="link-btn" id="btn-inspect" title="Opens up to 5 dropdowns that are still empty (per frame), records how each list is built and copies it — structure and each dropdown's own label only: no field values, no other page text. Send this if a dropdown is not filled">Copy dropdown details</button>
+        <button type="button" class="link-btn" id="btn-report" title="Copy a report of this run for troubleshooting (no field values; page messages, record numbers and labels taken from page text are left out)">Copy report</button>
+        </span>
+      </div>
+    </section>
+
+    <footer class="bottombar">
+      <button type="button" id="btn-detect" class="btn btn-ghost">
+        <svg class="ic"><use href="#i-scan"/></svg>
+        Detect fields
+      </button>
+      <span class="safe-note"><svg class="safe-shield" viewBox="0 0 24 24" aria-hidden="true"><path class="body" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path class="tick" d="m8.5 12 2.5 2.5 4.5-5"/></svg>Synthetic data · never submits</span>
+    </footer>
+  </main>
+
+  <!-- ===================== Settings view ===================== -->
+  <section class="view" id="view-settings" hidden aria-labelledby="settings-title">
+    <header class="topbar sub">
+      <button type="button" class="icon-btn back" data-back aria-label="Back">
+        <svg class="ic"><use href="#i-back"/></svg>
+      </button>
+      <h2 id="settings-title">Settings</h2>
+    </header>
+
+    <div class="group">
+      <h3 class="group-title">Behavior</h3>
+      <label class="switch-row">
+        <span class="switch-text"><span class="switch-label">Skip already-filled fields</span><span class="switch-help">Never overwrite values already on the page</span></span>
+        <input type="checkbox" role="switch" id="opt-skip-filled" checked />
+      </label>
+      <label class="switch-row">
+        <span class="switch-text"><span class="switch-label">Only required fields</span><span class="switch-help"><code>required</code>, <code>*</code> or "(required)" on the label</span></span>
+        <input type="checkbox" role="switch" id="opt-required" />
+      </label>
+      <label class="switch-row">
+        <span class="switch-text"><span class="switch-label">Highlight filled fields</span><span class="switch-help">Brief outline on each field as it fills</span></span>
+        <input type="checkbox" role="switch" id="opt-highlight" checked />
+      </label>
+      <label class="switch-row">
+        <span class="switch-text"><span class="switch-label">Custom dropdowns</span><span class="switch-help">Material UI, Angular Material, React-Select, Ant… (opened by clicking). Turn off if a page misbehaves</span></span>
+        <input type="checkbox" role="switch" id="opt-custom-dropdowns" checked />
+      </label>
+      <label class="switch-row">
+        <span class="switch-text"><span class="switch-label">Open collapsed sections &amp; tabs</span><span class="switch-help">Expand closed sections and visit each tab in the form so their fields get filled too</span></span>
+        <input type="checkbox" role="switch" id="opt-expand-sections" checked />
+      </label>
+      <label class="switch-row">
+        <span class="switch-text"><span class="switch-label">Attach sample files to uploads</span><span class="switch-help">Valid data only. Fake, clearly marked test files. Some uploaders send the file right away — use on test systems</span></span>
+        <input type="checkbox" role="switch" id="opt-attach-files" />
+      </label>
+      <button type="button" class="link-btn" id="btn-test-files" style="margin:6px 0 0 2px">Manage test files…</button>
+      <button type="button" class="link-btn" id="btn-field-settings" style="margin:6px 0 0 2px" title="Fields you set by right-clicking them (Treat this field as… / Leave this field alone)">Field settings…</button>
+    </div>
+
+    <div class="group">
+      <h3 class="group-title">Dropdown &amp; radio choice</h3>
+      <div class="segmented wide" role="radiogroup" aria-label="Dropdown and radio choice" id="dropdown-strategy">
+        <label class="seg"><input type="radio" name="dropdown-strategy" value="match" checked /><span>Match data</span></label>
+        <label class="seg"><input type="radio" name="dropdown-strategy" value="first" /><span>First</span></label>
+        <label class="seg"><input type="radio" name="dropdown-strategy" value="last" /><span>Last</span></label>
+        <label class="seg"><input type="radio" name="dropdown-strategy" value="random" /><span>Random</span></label>
+      </div>
+    </div>
+
+    <div class="group" id="group-patient">
+      <h3 class="group-title">Test patient</h3>
+      <div class="field">
+        <span class="field-label" id="patient-age-label">Patient</span>
+        <div class="segmented wide" role="radiogroup" aria-labelledby="patient-age-label" aria-describedby="patient-age-help" id="patient-age">
+          <label class="seg"><input type="radio" name="patient-age" value="any" /><span>Any</span></label>
+          <label class="seg"><input type="radio" name="patient-age" value="child" /><span>Child</span></label>
+          <label class="seg"><input type="radio" name="patient-age" value="adult" checked /><span>Adult</span></label>
+          <label class="seg"><input type="radio" name="patient-age" value="senior" /><span>Senior 65+</span></label>
+        </div>
+        <span class="field-help" id="patient-age-help"></span>
+      </div>
+      <div class="field">
+        <span class="field-label" id="patient-insurance-label">Insurance</span>
+        <select id="patient-insurance" aria-labelledby="patient-insurance-label" aria-describedby="patient-insurance-help">
+          <option value="any">Any</option>
+          <option value="private">Private insurance</option>
+          <option value="medicare">Medicare</option>
+          <option value="medicaid">Medicaid</option>
+          <option value="none">No insurance (self-pay)</option>
+        </select>
+        <span class="field-help" id="patient-insurance-help"></span>
+      </div>
+      <div class="field">
+        <span class="field-label" id="patient-state-label">State</span>
+        <select id="patient-state" aria-labelledby="patient-state-label">
+          <option value="any">Any state</option>
+        </select>
+      </div>
+      <label class="switch-row">
+        <span class="switch-text"><span class="switch-label">Keep the same person</span><span class="switch-help">Every fill uses one patient until you press <b>New person</b> — for forms with several pages</span></span>
+        <input type="checkbox" role="switch" id="opt-same-person" />
+      </label>
+    </div>
+
+    <div class="group">
+      <h3 class="group-title">Test data</h3>
+      <div class="field">
+        <label class="field-label" for="opt-test-password">Password for test accounts</label>
+        <input type="text" id="opt-test-password" class="text-input" spellcheck="false" autocomplete="off" maxlength="64" value="Admin@1234" placeholder="Empty = a random strong password" aria-describedby="test-password-help" />
+        <span class="field-help" id="test-password-help">Used in every password field with Valid data, so anyone can sign in to the test accounts. Test systems only.</span>
+      </div>
+      <div class="field">
+        <span class="field-label" id="invalid-type-label">Invalid data</span>
+        <select id="invalid-type" aria-labelledby="invalid-type-label">
+          <option value="random">Random mix</option>
+          <option value="format">Wrong format (email / phone / ZIP)</option>
+          <option value="type">Wrong type (numbers in a name)</option>
+          <option value="range">Out of range (future DOB, age −5)</option>
+          <option value="length">Too short / too long</option>
+        </select>
+      </div>
+      <div class="field">
+        <span class="field-label" id="edge-type-label">Edge cases</span>
+        <!-- Two kinds of edge case; the list below shows only the kind chosen here. -->
+        <div class="segmented wide edge-kind" role="radiogroup" aria-label="Kind of edge case">
+          <label class="seg"><input type="radio" name="edge-kind" value="payload" checked /><span>Payloads</span></label>
+          <label class="seg"><input type="radio" name="edge-kind" value="limit" /><span>Field limits</span></label>
+        </div>
+        <select id="edge-type" aria-labelledby="edge-type-label" aria-describedby="edge-type-help" data-hide-groups>
+          <optgroup label="Payloads">
+            <option value="random">Random mix</option>
+            <option value="long">Very long string (5000 chars)</option>
+            <option value="xss">XSS payload</option>
+            <option value="sql">SQL injection</option>
+            <option value="unicode">Unicode &amp; emoji</option>
+            <option value="whitespace">Leading / trailing spaces</option>
+            <option value="boundary">Zero / oldest dates</option>
+            <option value="empty">Just spaces</option>
+          </optgroup>
+          <optgroup label="Each field's own limits">
+            <option value="limit-min">At minimum</option>
+            <option value="limit-under">Below minimum (min − 1)</option>
+            <option value="limit-max">At maximum</option>
+            <option value="limit-over">Above maximum (max + 1)</option>
+          </optgroup>
+        </select>
+        <span class="field-help" id="edge-type-help"></span>
+      </div>
+    </div>
+
+    <div class="settings-foot">
+      <button type="button" class="btn btn-ghost btn-sm" id="btn-reset-settings" hidden>Reset to defaults</button>
+    </div>
+  </section>
+
+  <!-- ===================== Help view ===================== -->
+  <section class="view" id="view-help" hidden aria-labelledby="help-title">
+    <header class="topbar sub">
+      <button type="button" class="icon-btn back" data-back aria-label="Back">
+        <svg class="ic"><use href="#i-back"/></svg>
+      </button>
+      <h2 id="help-title">Help &amp; tips</h2>
+      <span class="topbar-meta" id="app-version"></span>
+    </header>
+
+    <!-- The same tips, in four groups that open and close (the first is open). -->
+    <div class="tips">
+     <details class="tip-group" open>
+      <summary>Using FillCraft</summary>
+      <div class="tip"><strong>Shortcuts</strong><span>Each mode has a keyboard shortcut; the result count shows on the toolbar icon, and the full log when you reopen this popup.</span>
+        <button type="button" class="btn btn-ghost btn-sm" id="link-shortcuts"><svg class="ic ic-sm"><use href="#i-keyboard"/></svg>Change shortcuts</button></div>
+      <div class="tip"><strong>Results</strong><span>After a fill, every field is listed as filled, skipped or failed — with the reason. Click a row to jump to that field. <b>Copy report</b> shares the run without any field values.</span></div>
+      <div class="tip"><strong>Stop</strong><span>While a fill runs, <b>Stop</b> ends it after the field it is working on. What was filled stays — use <b>Clear form</b> to empty it.</span></div>
+      <div class="tip"><strong>Detect fields</strong><span>Previews what each field is recognized as, using your settings. <code>*</code> marks required fields.</span></div>
+     </details>
+     <details class="tip-group">
+      <summary>What gets filled</summary>
+      <div class="tip"><strong>Page errors</strong><span>If the page shows an error on a field ("Enter a number between 0 and 99"), FillCraft enters a value that follows it, or clears the field and reports the message. With Invalid / Edge data it only records the message.</span></div>
+      <div class="tip"><strong>Sections, tabs &amp; uploads</strong><span>Collapsed sections and tabs in the form are opened and filled. With <b>Attach sample files</b> on, upload fields get fake test files (Settings → Manage test files).</span></div>
+      <div class="tip"><strong>Right-click a field</strong><span>Right-click any field → <b>FillCraft</b>: <b>Fill this field</b> or <b>Fill this section</b> (Valid / Invalid / Edge), <b>Treat this field as…</b> a type FillCraft got wrong, <b>Leave this field alone</b>, or <b>Forget my setting</b>. Settings are kept per website (Settings → Field settings…). The toolbar icon shows ✓ when done — point at it for details.</span></div>
+      <div class="tip"><strong>Test patient</strong><span>Settings → <b>Test patient</b>: a child (with a parent or guardian), an adult or a senior on Medicare; the kind of insurance (none = self-pay, insurance boxes left empty); a state. <b>Keep the same person</b> fills every page of a multi-page form with one patient until you press <b>New person</b>. Copy report names the person only by a short number.</span></div>
+      <div class="tip"><strong>Passwords</strong><span>With Valid data every password box gets the same password — <code>Admin@1234</code> by default (Settings → Password for test accounts) — so anyone can sign in to the accounts created. When a form's rules refuse it (longer, shorter, "too common"), a close variant is used for that form, and its confirm box gets the same; the results list shows the password used. Test systems only.</span></div>
+      <div class="tip"><strong>Boundary testing</strong><span>Settings → Edge cases → <b>Field limits</b> uses each field's <code>maxlength</code>, <code>min</code>/<code>max</code>. Fields with no length limit are tested at 255 / 256 characters.</span></div>
+     </details>
+     <details class="tip-group">
+      <summary>Safety</summary>
+      <div class="tip"><strong>Open dialogs</strong><span>With a dialog or side panel open over the page, Fill, Clear and Detect work only inside it — never on the screen behind it. A dialog without fields ("Discard changes?") is left alone; close it to fill the page.</span></div>
+      <div class="tip"><strong>Never touched</strong><span>Hidden bot traps, CAPTCHAs, verification codes, drawn signature pads, disabled fields and site navigation. (A typed-signature box gets the person's name; with "Attach sample files" on, a signature upload gets the sample image.) FillCraft never submits, saves, cancels or closes anything: while it works, a form submit or a click on Save / Submit / Cancel / Close / × is stopped.</span></div>
+      <div class="tip"><strong>Safe data</strong><span>All data is synthetic. Phones use the fictional <code>555-01XX</code> range; emails go to public <code>mailinator.com</code> inboxes; sample files are marked SAMPLE. FillCraft never submits a form.</span></div>
+     </details>
+     <details class="tip-group">
+      <summary>Troubleshooting</summary>
+      <div class="tip"><strong>Recognition</strong><span>Fields are matched by <code>label</code>, <code>name</code>, <code>id</code>, <code>placeholder</code>, <code>aria-label</code>, <code>autocomplete</code>, <code>data-testid</code> and the nearest heading. A dropdown not filled? Use <b>Copy dropdown details</b> in the results and send it to whoever maintains FillCraft.</span></div>
+     </details>
+    </div>
+  </section>
+
+  <script src="data.js"></script>
+  <script src="fieldrules.js"></script>
+  <script src="runner.js"></script>
+  <script src="popup-select.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

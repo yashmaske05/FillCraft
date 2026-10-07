@@ -1,0 +1,53 @@
+/* FillCraft "Field settings" page — on top of options.css (same look as the Test files page). */
+.toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 10px; }
+.filter-label { font-size: 13px; font-weight: 600; color: var(--text-2); }
+.filter {
+  flex: 1 1 220px; max-width: 320px; height: 32px; box-sizing: border-box; padding: 0 10px;
+  font: inherit; font-size: 13px; color: var(--text); background: var(--card);
+  border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow);
+}
+.filter:focus-visible { outline: none; box-shadow: var(--focus); }
+.spacer { flex: 1 1 0; }
+.note.info { color: var(--text-2); background: var(--card); border-color: var(--border); }
+.note.info .note-icon { color: var(--accent); }
+.msg { margin: 0 2px 4px; min-height: 1.2em; font-size: 12.5px; font-weight: 600; }
+.msg.ok { color: var(--ok); }
+.msg.bad { color: var(--bad); }
+
+.site { margin-top: 22px; }
+.site-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0 2px 8px; }
+.site-head h2 { margin: 0; font-size: 15px; font-weight: 600; }
+.site-count { font-size: 12.5px; color: var(--muted); }
+.site-head .spacer { flex: 1 1 0; }
+.site-head button { height: 28px; font-size: 12px; }
+
+.table-box { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+table { width: 100%; min-width: 760px; border-collapse: collapse; }
+th {
+  text-align: left; padding: 10px 14px; font-size: 11px; font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); background: var(--surface); border-bottom: 1px solid var(--border);
+}
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; font-size: 13.5px; }
+tr:last-child td { border-bottom: none; }
+.field-name { display: block; font-weight: 600; }
+.field-where { font-size: 12px; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 12px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px;
+  max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.type-select {
+  width: 190px; height: 32px; padding: 0 10px; font: inherit; font-size: 13px; color: var(--text);
+  background: var(--card); border: 1px solid var(--border); border-radius: 7px; box-shadow: var(--shadow); cursor: pointer;
+}
+.type-select:focus-visible { outline: none; box-shadow: var(--focus); }
+.type-select.leave { color: var(--muted); background: var(--surface); }
+.when { font-size: 13px; color: var(--text-2); white-space: nowrap; }
+td.act { text-align: right; }
+.empty, .hint { margin: 22px 2px 0; font-size: 13px; color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (forced-colors: active) {
+  .filter:focus-visible, .type-select:focus-visible { outline: 2px solid Highlight; }
+}

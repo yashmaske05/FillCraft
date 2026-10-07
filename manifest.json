@@ -1,0 +1,75 @@
+{
+  "manifest_version": 3,
+  "name": "FillCraft",
+  "version": "1.20.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtEJ7UzKmkMjGe/oryBMFRQeRRJScz3xo8TkzASquDAGXl0QUqiMarpz0jSnIp00+2/wJUeVl/MErfinv74Gt8tM+ncofw8HKOEF7xXo6ycbrvuxtKG1OBPY3tqdhWuX49Yp9ZuyNq4a23AZIuL0hernGkT0JbyJo5633xEggXxydkFTRxF3/HO45dE+U2lkd4R3rEUDCFjU5k7T9LucngA0KGDfb/Rv0ss42PFFU0Eng8YsULdRJQXp4eUf4zzN1AAENf+1hXdE8q2TcRX8s1KWMG5jdw4Ro0KSsz6mS6L1t2a5i3TNV0Lir2wuOl1h8WZfSCUkMrd/+flMX7FIZOQIDAQAB",
+  "description": "Fill web forms in one click with realistic US & healthcare test data, invalid values and edge cases — for developers and QA.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "unlimitedStorage",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["ctxmenu.js"],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "FillCraft — Smart Form Filler",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "commands": {
+    "fill-valid": {
+      "suggested_key": {
+        "default": "Alt+Shift+V"
+      },
+      "description": "Fill form with valid US data"
+    },
+    "fill-invalid": {
+      "suggested_key": {
+        "default": "Alt+Shift+M"
+      },
+      "description": "Fill form with invalid data"
+    },
+    "fill-edge": {
+      "suggested_key": {
+        "default": "Alt+Shift+E"
+      },
+      "description": "Fill form with edge-case data"
+    },
+    "clear-form": {
+      "suggested_key": {
+        "default": "Alt+Shift+L"
+      },
+      "description": "Clear all form fields"
+    }
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}

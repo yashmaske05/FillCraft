@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <title>FillCraft</title>
+  <!-- FillCraft mark: an "F" built from form fields — the top arm a filled field, the
+       middle arm a field being typed into (mint text cursor) — plus a sparkle for auto-fill. -->
+  <defs>
+    <linearGradient id="fc-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d6afe"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="fc-shine" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".24"/>
+      <stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="url(#fc-bg)"/>
+  <rect x="4" y="4" width="120" height="120" rx="30" fill="url(#fc-shine)"/>
+  <!-- Geometry on a 4-unit grid so every edge lands on a whole pixel at 32px. -->
+  <rect x="28" y="28" width="16" height="72" rx="8" fill="#fff"/>
+  <rect x="28" y="28" width="68" height="16" rx="8" fill="#fff"/>
+  <rect x="28" y="56" width="48" height="16" rx="8" fill="#fff"/>
+  <rect x="84" y="52" width="8" height="24" rx="4" fill="#5eead4"/>
+  <path d="M101 74 l5 11.5 11.5 5 -11.5 5 -5 11.5 -5 -11.5 -11.5 -5 11.5 -5z" fill="#fcd34d"/>
+</svg>

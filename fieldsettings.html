@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>FillCraft — Field settings</title>
+  <link rel="icon" href="icons/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="options.css" />
+  <link rel="stylesheet" href="fieldsettings.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <img src="icons/logo.svg" alt="" width="40" height="40" />
+      <div class="head-text">
+        <h1>Field settings</h1>
+        <p class="sub">How FillCraft fills the fields you set by right-clicking them (<b>Treat this field as…</b> / <b>Leave this field alone</b>). Saved in this browser only.</p>
+      </div>
+      <span class="summary" id="summary" aria-live="polite"></span>
+    </header>
+
+    <div class="toolbar">
+      <label for="filter" class="filter-label">Filter</label>
+      <input id="filter" type="search" class="filter" placeholder="Site or field" autocomplete="off" />
+      <span class="spacer"></span>
+      <button type="button" id="btn-import">Import…</button>
+      <button type="button" id="btn-export" class="primary">Export</button>
+      <input type="file" id="import-file" accept=".json,application/json" hidden />
+    </div>
+
+    <p class="note info">
+      <svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M12 16h.01"/></svg>
+      <span><b>Export</b> saves site addresses and field labels only — never values. <b>Import</b> adds a teammate's settings; one for a field you already set replaces yours.</span>
+    </p>
+    <p class="msg" id="msg" role="status"></p>
+
+    <div id="sites"></div>
+    <p class="empty" id="empty" hidden>No field settings yet. To add one: right-click a field on any page → <b>FillCraft</b> → <b>Treat this field as…</b> or <b>Leave this field alone</b>.</p>
+    <p class="hint" id="hint">To add one: right-click a field on any page → <b>FillCraft</b> → <b>Treat this field as…</b> or <b>Leave this field alone</b>.</p>
+  </main>
+  <script src="fieldrules.js"></script>
+  <script src="fieldsettings.js"></script>
+</body>
+</html>

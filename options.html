@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>FillCraft — Test files</title>
+  <link rel="icon" href="icons/logo.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="head">
+      <img src="icons/logo.svg" alt="" width="40" height="40" />
+      <div class="head-text">
+        <h1>Test files</h1>
+        <p class="sub">Files FillCraft attaches to upload fields when <b>Attach sample files to uploads</b> is on (Settings in the popup).</p>
+      </div>
+      <span class="summary" id="summary" aria-live="polite"></span>
+    </header>
+
+    <p class="note">
+      <svg class="note-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M12 16h.01"/></svg>
+      <span><b>Fake test files only</b> — never real patient documents. JPG, PNG, WEBP or PDF, up to 2 MB, saved in this browser only. Drop a file on a card, or use Replace.</span>
+    </p>
+
+    <p class="note error" id="read-error" role="alert" hidden>Your saved test files could not be read, so nothing can be changed right now. Reload this page to try again.</p>
+
+    <div class="groups" id="slots"></div>
+  </main>
+  <script src="runner.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
